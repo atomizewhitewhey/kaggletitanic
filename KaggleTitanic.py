@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import math
 
-train = pd.read_csv('/Users/matthewyeozhiwei/Downloads/train.csv')
+train = pd.read_csv('/Users/matthewyeozhiwei/repos/KaggleTitanic/train.csv')
 
 ## 1. Data Cleaning
 
@@ -194,7 +194,7 @@ print("Optimized Classification Score: ", round(score*100, 3))
 ## No change in optimized score lol, maybe im doing this wrong
 
 
-test = pd.read_csv('/Users/matthewyeozhiwei/Downloads/test.csv')
+test = pd.read_csv('/Users/matthewyeozhiwei/repos/KaggleTitanic/test.csv')
 test_names = test[['PassengerId', 'Name']]
 test = test.drop_duplicates(subset = ['Name', 'PassengerId'])
 test = test.drop(labels = ['Cabin','Name','Ticket', 'PassengerId'], axis = 1) 
