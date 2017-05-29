@@ -184,11 +184,13 @@ stand.fit(X_train)
 X1_train = stand.transform(X_train)
 X1_test = stand.transform(X_test)
 from sklearn.model_selection import GridSearchCV
-parameters = {'n_estimators' : [90,100,110],
+parameters = {'n_estimators' : [100,200,300],
                  'max_depth' : [3,4,5]}
-optgbc = GridSearchCV(gbc, parameters)
-optgbc.fit(X1_train, y_train)
-score = optgbc.score(X1_test, y_test)
+optrfc = GridSearchCV(gbc, parameters)
+
+
+optrfc.fit(X1_train, y_train)
+score = optrfc.score(X1_test, y_test)
 print("Optimized Classification Score: ", round(score*100, 3))
 
 ## No change in optimized score lol, maybe im doing this wrong
@@ -202,10 +204,14 @@ test.Sex = test.Sex.map({'male':0, 'female':1})
 test = pd.get_dummies(test, columns = ['Embarked'])
 test.Age = test.Age.fillna(test.Age.mean())
 test.Fare = test.Fare.fillna(test.Fare.mean())
-print(test[pd.isnull(test).any(axis = 1)])
-test_predictions = optgbc.predict(test)
+## print(test[pd.isnull(test).any(axis = 1)])
+test_predictions = optrfc.predict(test)
 test_predictions = pd.DataFrame(test_predictions)
 test_predictions.columns = ['Survival']
 results = pd.concat([test_names, test_predictions], axis = 1)
+results = results.drop(labels = 'Name', axis = 1)
+results.columns = ['PassengerId', 'Survived']
 print(results.head())
+## print(results.shape)
+results.to_csv(path_or_buf = '/Users/matthewyeozhiwei/Desktop/submit1.csv', index = False)
 
